@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
 
     private void CheckSkateboarding()
     {
-        if (Input.GetKeyDown("f"))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             isSkateBoarding = !isSkateBoarding;
 
