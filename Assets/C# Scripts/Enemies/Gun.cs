@@ -57,7 +57,6 @@ public class Gun : MonoBehaviour
         Debug.Log(direction.x);
         if (direction.x < 0f)
             handle.position = new Vector3(handle.position.x, -handle.position.y, handle.position.z);
-        //transform.localScale = new Vector3(-scaleX, transform.localScale.y, transform.localScale.z);
         else
             handle.position = initialHandlePos;
     }
