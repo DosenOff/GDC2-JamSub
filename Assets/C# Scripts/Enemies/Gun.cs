@@ -9,11 +9,10 @@ public class Gun : MonoBehaviour
 
     private Transform handle;
     Vector3 initialHandlePos;
+    bool isFlipped = false;
 
     Player player;
     Guard guard;
-
-    float scaleX;
 
     void OnDrawGizmos()
     {
@@ -25,7 +24,7 @@ public class Gun : MonoBehaviour
     {
         player = GameObject.Find("Player").GetComponent<Player>();
         handle = transform.GetChild(0).GetComponent<Transform>();
-        initialHandlePos = handle.position;
+        initialHandlePos = handle.localPosition;
     }
 
     void Update()
@@ -54,10 +53,15 @@ public class Gun : MonoBehaviour
 
     void FlipGFX(Vector2 direction)
     {
-        Debug.Log(direction.x);
-        if (direction.x < 0f)
-            handle.position = new Vector3(handle.position.x, -handle.position.y, handle.position.z);
-        else
-            handle.position = initialHandlePos;
+        if (direction.x < 0f && !isFlipped)
+        {
+            handle.localPosition = new Vector3(handle.localPosition.x, -handle.localPosition.y, handle.localPosition.z);
+            isFlipped = true;
+        }
+        else if (direction.x > 0f && isFlipped)
+        {
+            handle.localPosition = initialHandlePos;
+            isFlipped = false;
+        }
     }
 }
