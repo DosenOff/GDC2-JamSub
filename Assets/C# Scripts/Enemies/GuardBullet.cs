@@ -17,7 +17,7 @@ public class GuardBullet : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.linearVelocity = Vector2.right * speed;
+        rb.linearVelocity = transform.right * speed;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -30,10 +30,5 @@ public class GuardBullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    public float bulletSpeed()
-    {
-        return speed;
     }
 }
