@@ -1,10 +1,9 @@
+/*
 using UnityEngine;
 
 public class SkateBoardBounce : MonoBehaviour
 {
 }
-
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -228,4 +227,5 @@ public class Player : MonoBehaviour
         detectSkateboard.SetActive(true);
     }
 }
+*/
 

@@ -17,8 +17,11 @@ public class Skateboard : MonoBehaviour
     {
         if (other.CompareTag("DetectSkateboard"))
         {
-            player.currentState = Player.SkateboardState.Idle;
-            player.holding = true;
+            if (player.currentState != Player.SkateboardState.Charging)
+            {
+                player.currentState = Player.SkateboardState.Idle;
+                player.holding = true;
+            }
         }
     }
 }

@@ -95,9 +95,17 @@ public class Player : MonoBehaviour
         }
 
         float angle = Mathf.Atan2(smoothedInputY, smoothedInputX) * Mathf.Rad2Deg;
-        if (smoothedInputX == 0f && smoothedInputY != 0f)
+        
+        if (smoothedInputX <= 0f && smoothedInputY != 0f)
+            transform.rotation = Quaternion.Euler(0f, 0f, angle - 180f);
+
+        else if (smoothedInputX != 0f && smoothedInputY == 0f)
+            transform.rotation = Quaternion.identity;
+
+        else if (smoothedInputX == 0f && smoothedInputY != 0f)
             transform.rotation = Quaternion.Euler(0f, 0f, 90f);
-        else if (smoothedInputX != 0f)
+
+        else
             transform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 
@@ -114,20 +122,21 @@ public class Player : MonoBehaviour
 
     private void CheckMouse()
     {
-        if (holding)
+        if (!holding)
+            return;
+
+        if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                currentState = SkateboardState.Charging;
-                isChargingSkateboard = true;
-                chargeTime = 0f;
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                currentState = SkateboardState.Thrown;
-                isChargingSkateboard = false;
-            }
+            currentState = SkateboardState.Charging;
+            isChargingSkateboard = true;
+            chargeTime = 0f;
         }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            currentState = SkateboardState.Thrown;
+            isChargingSkateboard = false;
+        }
+
     }
 
     private void HandleIdleState()
@@ -182,11 +191,14 @@ public class Player : MonoBehaviour
 
     private void HandleThrownState()
     {
+        Debug.Log("THROWING skateboard. Speed: " + currentThrowSpeed);
+        
         Rigidbody2D skateboardRb = skateboardObj.GetComponent<Rigidbody2D>();
         skateboardObj.GetComponent<Collider2D>().enabled = true;
 
         holding = false;
         isSkateboarding = false;
+        skateboardGFX.SetActive(true);
 
         speed = walkingSpeed;
         smoothingSpeed = walkingSmoothingSpeed;
@@ -207,14 +219,5 @@ public class Player : MonoBehaviour
         detectSkateboard.SetActive(false);
         yield return new WaitForSeconds(0.5f);
         detectSkateboard.SetActive(true);
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject == skateboardObj)
-        {
-            holding = true;
-            currentState = SkateboardState.Idle;
-        }
     }
 }
