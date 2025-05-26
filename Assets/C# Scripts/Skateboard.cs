@@ -2,18 +2,23 @@ using UnityEngine;
 
 public class Skateboard : MonoBehaviour
 {
-    private Transform skateboardLoc;
     private Player player;
+
+    Rigidbody2D rb;
+    Collider2D col;
 
     void Start()
     {
-        skateboardLoc = GameObject.Find("SkateBoardLocation").GetComponent<Transform>();
         player = GameObject.Find("Player").GetComponent<Player>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        transform.position = skateboardLoc.transform.position;
-        transform.rotation = player.transform.rotation;
+        if (other.CompareTag("DetectSkateboard"))
+        {
+            player.currentState = Player.SkateboardState.Idle;
+            player.holding = true;
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,9 +9,9 @@ public class GuardGun : MonoBehaviour
 
     public Transform bulletSpawnPoint;
     public float rotationalSmoothing = 10f;
+
     public float shootCooldown = 1f;
-    [SerializeField] private float currentShootCooldown;
-    [SerializeField] private float fakePredictionTime = 999999f;
+    private float currentShootCooldown;
 
     public LayerMask layersToDetect;
 
@@ -19,33 +20,52 @@ public class GuardGun : MonoBehaviour
     bool isFlipped = false;
 
     Player player;
+    EnemyAI enemyAI;
 
     void OnDrawGizmos()
     {
+        Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
     }
 
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
+        enemyAI = transform.GetComponentInParent<EnemyAI>();
         handle = transform.GetChild(0).GetComponent<Transform>();
+
         initialHandlePos = handle.localPosition;
         currentShootCooldown = shootCooldown;
     }
 
     void Update()
     {
-        Vector2 direction = (Vector2)(player.transform.position - transform.position).normalized;
-        RaycastHit2D lineOfSight = Physics2D.Raycast(transform.position, direction, detectionRange, layersToDetect);
+        Vector2 gunDirection = enemyAI.rb.linearVelocity;
+        FlipGFX(gunDirection);
+
+        Vector2 playerDirection = (Vector2)(player.transform.position - transform.position).normalized;
+        RaycastHit2D lineOfSight = Physics2D.Raycast(transform.position, playerDirection, detectionRange, layersToDetect);
 
         if (lineOfSight.collider != null)
         {
-            Debug.DrawRay(transform.position, direction * detectionRange, lineOfSight.collider.CompareTag("Player") ? Color.red : Color.green);
+            Debug.DrawRay(transform.position, playerDirection * detectionRange, lineOfSight.collider.CompareTag("Player") ? Color.red : Color.green);
 
             if (lineOfSight.collider.CompareTag("Player"))
             {
+                FlipGFX(playerDirection);
                 Calculate();
-                FlipGFX(direction);
+                enemyAI.detected = true;
+            }
+
+            else
+            {
+                Vector2 dir = enemyAI.rb.linearVelocity;
+                float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                Quaternion finalRotation = Quaternion.Euler(0f, 0f, angle);
+
+                transform.rotation = Quaternion.Slerp(transform.rotation, finalRotation, rotationalSmoothing * Time.deltaTime);
+
+                enemyAI.detected = false;
             }
         }
 
@@ -60,7 +80,6 @@ public class GuardGun : MonoBehaviour
 
         /// predicts target location
         float predictionTime = Vector3.Distance(player.transform.position, transform.position) / bulletSpeed;
-        fakePredictionTime = predictionTime;
 
         Vector2 predictedPos = (Vector2)player.transform.position + (player.rb.linearVelocity * predictionTime);
 
@@ -98,9 +117,9 @@ public class GuardGun : MonoBehaviour
         }
     }
 
-    void Shoot(Quaternion rot)
+    void Shoot(Quaternion finalRotation)
     {
-        Instantiate(bulletPrefab, bulletSpawnPoint.position, rot);
+        Instantiate(bulletPrefab, bulletSpawnPoint.position, finalRotation);
     }
 
     void FlipGFX(Vector2 direction)
