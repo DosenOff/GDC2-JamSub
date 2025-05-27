@@ -1,12 +1,25 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+using UnityEngine.UI;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : MonoBehaviour, IDamageable
 {
+    public int score = 1000;
+
+    [Header("Health")]
+    public int health = 100;
+    public HealthBar healthBar;
+    public GameObject canvas;
+
+    public SpriteRenderer[] skin;
+    public float flashDuration = 0.1f;
+    public GameObject deathEffect;
+
+    [Header("Movement")]
     public Vector3 target;
     public float roamRadius = 50f;
-
     public float speed = 200f;
     public float chaseSpeed = 2000f;
     private float savedSpeed;
@@ -27,6 +40,11 @@ public class EnemyAI : MonoBehaviour
     bool hasGun = false;
     [HideInInspector] public bool detected = false;
 
+    private GuardSpawner guardSpawner;
+
+    public AudioClip deathSound;
+    private AudioSource audioSource;
+
     void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, roamRadius);
@@ -34,6 +52,11 @@ public class EnemyAI : MonoBehaviour
 
     void Start()
     {
+        audioSource = GameObject.Find("SFXAudioSource").GetComponent<AudioSource>();
+
+        guardSpawner = GameObject.Find("GuardSpawner").GetComponent<GuardSpawner>();
+        guardSpawner.guardCount++;
+
         savedSpeed = speed;
 
         seeker = GetComponent<Seeker>();
@@ -79,19 +102,22 @@ public class EnemyAI : MonoBehaviour
     {
         while (newPath)
         {
-            Vector2 newRandomPos = Random.insideUnitCircle * roamRadius;
+            Vector2 newRandomPos = (Vector2)transform.position + Random.insideUnitCircle * roamRadius;
 
             ///modify this to equal the diameter in A* script
-            Collider2D hit = Physics2D.OverlapCircle(newRandomPos, 3.5f);
+            Collider2D[] hits = Physics2D.OverlapCircleAll(newRandomPos, 3.5f);
 
-            if (hit == null)
+            foreach (Collider2D hit in hits)
             {
-                ///only for start so it doesn't move to (0, 0, 0)
-                beginning = true;
+                if (hit.CompareTag("Spawner") || hits == null)
+                {
+                    ///only for start so it doesn't move to (0, 0, 0)
+                    beginning = true;
 
-                newPath = false;
-                target = newRandomPos;
-                yield break;
+                    newPath = false;
+                    target = newRandomPos;
+                    yield break;
+                }
             }
         }
 
@@ -131,5 +157,49 @@ public class EnemyAI : MonoBehaviour
 
         if (distance < nextWaypointDistance)
             currentWaypoint++;
+    }
+
+    private void Update()
+    {
+        healthBar.SetHealth(health);;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        canvas.SetActive(true);
+        health -= damage;
+        FlashWhite();
+
+        if (health <= 0)
+        {
+            Instantiate(deathEffect, transform.position, Quaternion.identity);
+            player.AddScore(score);
+            guardSpawner.guardCount--;
+            audioSource.PlayOneShot(deathSound);
+            Destroy(gameObject);
+        }
+    }
+
+    void FlashWhite()
+    {
+        List<Color> savedColors = new List<Color>();
+
+        foreach (var spriteRenderer in skin)
+        {
+            savedColors.Add(spriteRenderer.color);
+            spriteRenderer.color = Color.white;
+        }
+
+        StartCoroutine(Flash(savedColors));
+    }
+
+    IEnumerator Flash(List<Color> savedColors)
+    {
+        yield return new WaitForSeconds(flashDuration);
+
+        for (int i = 0; i < skin.Length; i++)
+        {
+            skin[i].color = savedColors[i];
+        }
     }
 }

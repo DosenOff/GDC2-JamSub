@@ -3,7 +3,8 @@ using UnityEngine;
 public class GuardBullet : MonoBehaviour
 {
     public float speed = 10f;
-    public float damage = 1f;
+    public int damage = 1;
+    public GameObject bulletEffect;
 
     private Rigidbody2D rb;
 
@@ -24,9 +25,10 @@ public class GuardBullet : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-
+            player.TakeDamage(damage);
         }
 
+        Instantiate(bulletEffect, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 }

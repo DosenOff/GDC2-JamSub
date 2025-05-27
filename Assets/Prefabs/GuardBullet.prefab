@@ -167,3 +167,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 40
   damage: 1
+  bulletEffect: {fileID: 222859710698080174, guid: 569d15e3ac935c845981f21c65a97d0a, type: 3}

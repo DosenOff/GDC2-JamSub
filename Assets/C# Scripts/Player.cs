@@ -1,9 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
+    [Header("Health")]
+    public int maxHealth = 100;
+    public int currentHealth;
+
+    public HealthBar healthBar;
+    public GameObject deathEffect;
+
+    public SpriteRenderer skin;
+    private Color skinColor;
+    public float flashDuration = 0.1f;
+
     [Header("Movement Settings")]
     public float walkingSpeed = 15f;
     public float skateboardingSpeed = 30f;
@@ -21,9 +34,9 @@ public class Player : MonoBehaviour
     public Transform skateboardLoc;
 
     private GameObject skateboardGFX;
-    private GameObject detectSkateboard;
     private Skateboard skateboard;
     public Rigidbody2D rb;
+    private Rigidbody2D skateboardRb;
 
     [Header("State Flags")]
     public bool isSkateboarding = false;
@@ -33,19 +46,34 @@ public class Player : MonoBehaviour
     [Header("Charging Settings")]
     public float chargingAcceleration = 50f;
     public float maxThrowSpeed = 25f;
-    private float currentThrowSpeed = 0f;
+    public float currentThrowSpeed = 0f;
     private float chargeTime = 0f;
     public float maxChargeTime = 2f;
+    public float rotFactor = 0.5f;
+    public float deaccelerationFactor = 3f;
+    private Vector2 throwDir;
+    private bool forceAdded = false;
+    private float chargingAngularVelocity = 0f;
 
     public enum SkateboardState { Idle, Charging, Thrown, Riding }
     public SkateboardState currentState = SkateboardState.Idle;
     private Dictionary<SkateboardState, System.Action> stateActions;
 
+    [Header("Score Settings")]
+    public TMP_Text scoreText;
+    public int score = 0;
+
+    public GameObject canvas;
+
+    public AudioClip deathClip;
+    private AudioSource audioSource;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         skateboard = skateboardObj.GetComponent<Skateboard>();
-        skateboardGFX = skateboardObj.transform.Find("GFX").gameObject;
+        skateboardGFX = skateboardObj.transform.Find("GFX").gameObject; 
+        skateboardRb = skateboardObj.GetComponent<Rigidbody2D>();
 
         skateboardGFX.SetActive(false);
         speed = walkingSpeed;
@@ -58,8 +86,13 @@ public class Player : MonoBehaviour
             { SkateboardState.Thrown, HandleThrownState },
             { SkateboardState.Riding, HandleRidingState }
         };
+    }
 
-        detectSkateboard = GameObject.Find("DetectSkateboard");
+    private void Start()
+    {
+        currentHealth = maxHealth;
+        audioSource = GameObject.Find("GlobalManager").GetComponent<AudioSource>();
+        skinColor = skin.color;
     }
 
     private void Update()
@@ -75,6 +108,8 @@ public class Player : MonoBehaviour
 
         CheckMouse();
         stateActions[currentState]?.Invoke();
+
+        healthBar.SetHealth(currentHealth);
     }
 
     private void FixedUpdate()
@@ -146,6 +181,7 @@ public class Player : MonoBehaviour
 
         isSkateboarding = false;
         currentThrowSpeed = 0f;
+        forceAdded = false;
 
         skateboardGFX.SetActive(false);
         skateboardCol.SetActive(false);
@@ -185,15 +221,16 @@ public class Player : MonoBehaviour
         skateboardCol.SetActive(false);
         skateboardObj.GetComponent<Collider2D>().enabled = true;
 
-        skateboardObj.transform.position = skateboardLoc.position;
-        skateboardObj.transform.Rotate(0f, 0f, currentThrowSpeed * Time.deltaTime * 100f);
+        skateboardObj.transform.position = skateboardLoc.position; 
+
+        chargingAngularVelocity = Mathf.Lerp(chargingAngularVelocity, currentThrowSpeed * 30f, Time.deltaTime * 10f);
+        skateboardRb.angularVelocity = chargingAngularVelocity;
+
+        throwDir = ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)skateboard.transform.position).normalized;
     }
 
     private void HandleThrownState()
     {
-        Debug.Log("THROWING skateboard. Speed: " + currentThrowSpeed);
-        
-        Rigidbody2D skateboardRb = skateboardObj.GetComponent<Rigidbody2D>();
         skateboardObj.GetComponent<Collider2D>().enabled = true;
 
         holding = false;
@@ -203,21 +240,57 @@ public class Player : MonoBehaviour
         speed = walkingSpeed;
         smoothingSpeed = walkingSmoothingSpeed;
 
-        Vector2 throwDir = ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - (Vector2)transform.position).normalized;
-
-        skateboardRb.linearVelocity = throwDir * currentThrowSpeed;
-        skateboardRb.angularVelocity = currentThrowSpeed * 30f;
-
-        StartCoroutine(WaitDetectSkateboard());
+        if (!forceAdded)
+        {
+            skateboardRb.linearVelocity = throwDir * currentThrowSpeed;
+            skateboardRb.angularVelocity = currentThrowSpeed * 30f;
+            forceAdded = true;
+        }
 
         chargeTime = 0f;
-        currentThrowSpeed = 0f;
+        currentThrowSpeed = Mathf.Max(0f, currentThrowSpeed -= Time.deltaTime * deaccelerationFactor);
     }
 
-    IEnumerator WaitDetectSkateboard()
+    public void TakeDamage(int damage)
     {
-        detectSkateboard.SetActive(false);
-        yield return new WaitForSeconds(0.5f);
-        detectSkateboard.SetActive(true);
+        currentHealth -= damage;
+        FlashWhite();
+
+        if (currentHealth <= 0)
+        {
+            Instantiate(deathEffect, transform.position, Quaternion.identity);
+            canvas.SetActive(false);
+
+            audioSource.Stop();
+            audioSource.clip = deathClip;
+            audioSource.loop = false;
+            audioSource.Play();
+
+            StartCoroutine(Delay());
+        }
+    }
+
+    void FlashWhite()
+    {
+        skin.color = Color.white;
+        StartCoroutine(Flash());
+    }
+
+    IEnumerator Flash()
+    {
+        yield return new WaitForSeconds(flashDuration);
+        skin.color = skinColor;
+    }
+
+    IEnumerator Delay ()
+    {
+        yield return new WaitForSeconds(flashDuration);
+        gameObject.SetActive(false);
+    }
+
+    public void AddScore(int addScore)
+    {
+        score += addScore;
+        scoreText.text = score.ToString();
     }
 }
