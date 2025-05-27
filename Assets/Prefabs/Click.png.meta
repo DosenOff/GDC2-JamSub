@@ -1,10 +1,25 @@
 fileFormatVersion: 2
-guid: 321565fe005c6e04483859b03eca9885
+guid: 0f6ffd4fb29694b079d8f038b2347b8d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7381965769198725172
-    second: Banana_0
+      213: 3496416976752381988
+    second: Click_0
+  - first:
+      213: -634528725325432099
+    second: Click_1
+  - first:
+      213: 4902455940238282858
+    second: Click_2
+  - first:
+      213: -7386474413464801433
+    second: Click_3
+  - first:
+      213: 3494319535676340386
+    second: Click_4
+  - first:
+      213: 4646564755523825146
+    second: Click_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +128,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Banana_0
+      name: Click_0
       rect:
         serializedVersion: 2
-        x: 244
-        y: 152
-        width: 918
-        height: 500
+        x: 37
+        y: 425
+        width: 47
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +143,118 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 438ee2971c2027660800000000000000
-      internalID: 7381965769198725172
+      spriteID: 42098fd27b4c58030800000000000000
+      internalID: 3496416976752381988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Click_1
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 449
+        width: 35
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dda32377c73b137f0800000000000000
+      internalID: -634528725325432099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Click_2
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 433
+        width: 55
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6018ec04b5090440800000000000000
+      internalID: 4902455940238282858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Click_3
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 376
+        width: 61
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76f2beaf7a8fd7990800000000000000
+      internalID: -7386474413464801433
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Click_4
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 7
+        width: 324
+        height: 404
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a832bf9a115e7030800000000000000
+      internalID: 3494319535676340386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Click_5
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 296
+        width: 44
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: afde8dec60aeb7040800000000000000
+      internalID: 4646564755523825146
       vertices: []
       indices: 
       edges: []
@@ -147,8 +272,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Banana_0: 7381965769198725172
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -75,7 +75,7 @@ public class Skateboard : MonoBehaviour
         {
             if (player.currentState == Player.SkateboardState.Thrown)
             {
-                int damage = Mathf.RoundToInt(collision.relativeVelocity.magnitude);
+                int damage = Mathf.RoundToInt(collision.relativeVelocity.magnitude * 2f);
                 idamageable.TakeDamage(damage);
                 Debug.Log("Speed is " + collision.relativeVelocity.magnitude + " Damage is " + damage);
             }

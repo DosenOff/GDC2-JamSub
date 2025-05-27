@@ -27,7 +27,7 @@ public class DeathMenu : MonoBehaviour
 
     IEnumerator DeathDisplay()
     {
-        yield return new WaitForSeconds(5.25f);
+        yield return new WaitForSeconds(5f);
         deathCanvas.SetActive(true);
     }
 

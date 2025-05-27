@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 321565fe005c6e04483859b03eca9885
+guid: 2c77bd5098f9f41eb98a2d94f1278b94
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7381965769198725172
-    second: Banana_0
+      213: 1171904444774369125
+    second: NoClick_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Banana_0
+      name: NoClick_0
       rect:
         serializedVersion: 2
-        x: 244
-        y: 152
-        width: 918
-        height: 500
+        x: 5
+        y: 8
+        width: 324
+        height: 404
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 438ee2971c2027660800000000000000
-      internalID: 7381965769198725172
+      spriteID: 5674a7d22e0734010800000000000000
+      internalID: 1171904444774369125
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Banana_0: 7381965769198725172
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
