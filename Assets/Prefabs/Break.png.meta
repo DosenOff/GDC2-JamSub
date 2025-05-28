@@ -1,19 +1,25 @@
 fileFormatVersion: 2
-guid: be57997b43049426da36e80b46b1d1c4
+guid: 7c192a62e791f7b4d821f9080b82f598
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8912760082684505365
-    second: WASD_0
+      213: -6426412849335849376
+    second: Break_0
   - first:
-      213: 5728013866925015623
-    second: WASD_1
+      213: 5504277486448943824
+    second: Break_1
   - first:
-      213: 1549631535302605962
-    second: WASD_2
+      213: 3847257389965480688
+    second: Break_2
   - first:
-      213: 2549854409150798468
-    second: WASD_3
+      213: 1273466696024107936
+    second: Break_3
+  - first:
+      213: 7223869474027684908
+    second: Break_4
+  - first:
+      213: 282926608140113677
+    second: Break_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -105,30 +111,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WASD_0
+      name: Break_0
       rect:
         serializedVersion: 2
-        x: 185
-        y: 176
-        width: 193
-        height: 154
+        x: 281
+        y: 434
+        width: 212
+        height: 317
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +130,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: be21f473de38f4480800000000000000
-      internalID: -8912760082684505365
+      spriteID: 06ea457ef8bc0d6a0800000000000000
+      internalID: -6426412849335849376
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WASD_1
+      name: Break_1
       rect:
         serializedVersion: 2
-        x: 188
-        y: 10
-        width: 182
-        height: 166
+        x: 510
+        y: 468
+        width: 164
+        height: 196
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,20 +152,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 742c39e734efd7f40800000000000000
-      internalID: 5728013866925015623
+      spriteID: 0d228f4063f136c40800000000000000
+      internalID: 5504277486448943824
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WASD_2
+      name: Break_2
       rect:
         serializedVersion: 2
-        x: 11
-        y: 23
-        width: 165
-        height: 152
+        x: 710
+        y: 453
+        width: 207
+        height: 227
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,20 +174,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a8c747acba5618510800000000000000
-      internalID: 1549631535302605962
+      spriteID: 0f293686634346530800000000000000
+      internalID: 3847257389965480688
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WASD_3
+      name: Break_3
       rect:
         serializedVersion: 2
-        x: 422
-        y: 10
-        width: 194
-        height: 156
+        x: 892
+        y: 503
+        width: 184
+        height: 172
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -203,8 +196,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 48a956e4317e26320800000000000000
-      internalID: 2549854409150798468
+      spriteID: 0abaec186334ca110800000000000000
+      internalID: 1273466696024107936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Break_4
+      rect:
+        serializedVersion: 2
+        x: 1088
+        y: 491
+        width: 213
+        height: 285
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c24453f4307504460800000000000000
+      internalID: 7223869474027684908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Break_5
+      rect:
+        serializedVersion: 2
+        x: 833
+        y: 73
+        width: 297
+        height: 330
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0792b740482de300800000000000000
+      internalID: 282926608140113677
       vertices: []
       indices: 
       edges: []
@@ -222,11 +259,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      WASD_0: -8912760082684505365
-      WASD_1: 5728013866925015623
-      WASD_2: 1549631535302605962
-      WASD_3: 2549854409150798468
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

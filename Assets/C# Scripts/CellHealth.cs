@@ -6,6 +6,8 @@ public class CellHealth : MonoBehaviour, IDamageable
     public GameObject hitEffect;
     private SpriteRenderer spriteRenderer;
 
+    public GameObject wallInstructions;
+
     void Start ()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -19,6 +21,7 @@ public class CellHealth : MonoBehaviour, IDamageable
 
         if (health <= 20)
         {
+            Destroy(wallInstructions);
             Destroy(gameObject);
         }
     }

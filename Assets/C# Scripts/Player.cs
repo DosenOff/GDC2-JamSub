@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -60,6 +61,8 @@ public class Player : MonoBehaviour
     private Dictionary<SkateboardState, System.Action> stateActions;
 
     [Header("Score Settings")]
+    public TMP_Text timerText;
+    public float timer = 300f;
     public TMP_Text scoreText;
     public int score = 0;
 
@@ -110,6 +113,31 @@ public class Player : MonoBehaviour
         stateActions[currentState]?.Invoke();
 
         healthBar.SetHealth(currentHealth);
+
+        timer -= Time.deltaTime;
+
+        if (timer > 30f)
+        {
+            int intTimer = (int)timer;
+            timerText.text = intTimer.ToString();
+        }
+
+        else if (timer < 30f && timer > 0f)
+        {
+            float roundedTimer = (float)Math.Round(timer, 2);
+            timerText.text = roundedTimer.ToString();
+
+            if ((int)timer % 2 == 0)
+            {
+                timerText.color = Color.red;
+            }
+
+            else
+                timerText.color = Color.black;
+        }
+
+        else
+            Die();
     }
 
     private void FixedUpdate()
@@ -258,16 +286,21 @@ public class Player : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            Instantiate(deathEffect, transform.position, Quaternion.identity);
-            canvas.SetActive(false);
-
-            audioSource.Stop();
-            audioSource.clip = deathClip;
-            audioSource.loop = false;
-            audioSource.Play();
-
-            StartCoroutine(Delay());
+            Die();
         }
+    }
+
+    void Die()
+    {
+        Instantiate(deathEffect, transform.position, Quaternion.identity);
+        canvas.SetActive(false);
+
+        audioSource.Stop();
+        audioSource.clip = deathClip;
+        audioSource.loop = false;
+        audioSource.Play();
+
+        StartCoroutine(Delay());
     }
 
     void FlashWhite()
