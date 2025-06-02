@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     public SpriteRenderer skin;
     private Color skinColor;
     public float flashDuration = 0.1f;
+    public bool dead = false;
 
     [Header("Movement Settings")]
     public float walkingSpeed = 15f;
@@ -65,6 +66,7 @@ public class Player : MonoBehaviour
     public float timer = 300f;
     public TMP_Text scoreText;
     public int score = 0;
+    public bool beginTimer = false;
 
     public GameObject canvas;
 
@@ -114,7 +116,8 @@ public class Player : MonoBehaviour
 
         healthBar.SetHealth(currentHealth);
 
-        timer -= Time.deltaTime;
+        if (beginTimer)
+            timer -= Time.deltaTime;
 
         if (timer > 30f)
         {
@@ -124,8 +127,7 @@ public class Player : MonoBehaviour
 
         else if (timer < 30f && timer > 0f)
         {
-            float roundedTimer = (float)Math.Round(timer, 2);
-            timerText.text = roundedTimer.ToString();
+            timerText.text = timer.ToString("F2");
 
             if ((int)timer % 2 == 0)
             {
@@ -292,6 +294,10 @@ public class Player : MonoBehaviour
 
     void Die()
     {
+        if (dead) return;
+
+        dead = true;
+        Debug.Log("Player has died");
         Instantiate(deathEffect, transform.position, Quaternion.identity);
         canvas.SetActive(false);
 
@@ -318,7 +324,7 @@ public class Player : MonoBehaviour
     IEnumerator Delay ()
     {
         yield return new WaitForSeconds(flashDuration);
-        gameObject.SetActive(false);
+        transform.position = new Vector3(9999f, 9999f, 0f);
     }
 
     public void AddScore(int addScore)

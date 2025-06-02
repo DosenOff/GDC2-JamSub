@@ -8,9 +8,12 @@ public class CellHealth : MonoBehaviour, IDamageable
 
     public GameObject wallInstructions;
 
-    void Start ()
+    Player player;
+
+    void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     public void TakeDamage(int damage)
@@ -21,6 +24,7 @@ public class CellHealth : MonoBehaviour, IDamageable
 
         if (health <= 20)
         {
+            player.beginTimer = true;
             Destroy(wallInstructions);
             Destroy(gameObject);
         }

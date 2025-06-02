@@ -175,6 +175,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
             Instantiate(deathEffect, transform.position, Quaternion.identity);
             player.AddScore(score);
             guardSpawner.guardCount--;
+            guardSpawner.Spawn();
             audioSource.PlayOneShot(deathSound);
             Destroy(gameObject);
         }

@@ -21,7 +21,7 @@ public class DeathMenu : MonoBehaviour
         if (playerScript != null)
             scoreText.text = playerScript.score.ToString();
 
-        if (playerScript.currentHealth <= 0)
+        if (playerScript.dead)
             StartCoroutine(DeathDisplay());
     }
 

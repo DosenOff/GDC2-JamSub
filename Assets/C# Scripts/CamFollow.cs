@@ -5,12 +5,17 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     private Transform playerTransform;
+    private Player player;
 
     public bool isPanning = true;
+
+    private float playerX;
+    private float playerY;
 
     void Start()
     {
         playerTransform = GameObject.Find("Player").transform;
+        player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     void LateUpdate()
@@ -22,8 +27,11 @@ public class CameraFollow : MonoBehaviour
 
         Vector3 temp = transform.position;
 
-        float playerX = playerTransform.position.x;
-        float playerY = playerTransform.position.y;
+        if (!player.dead)
+        {
+            playerX = playerTransform.position.x;
+            playerY = playerTransform.position.y;
+        }
 
         float camX = Camera.main.ScreenToWorldPoint(Input.mousePosition).x / 25f;
         float camY = Camera.main.ScreenToWorldPoint(Input.mousePosition).y / 25f;
