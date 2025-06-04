@@ -30,7 +30,7 @@ public class Banana : MonoBehaviour
         else
             Destroy(gameObject);
 
-        sr.color = new Color(sr.color.r, sr.color.r, sr.color.r, decayTime / maxDecayTime);
+        //sr.color = new Color(sr.color.r, sr.color.r, sr.color.r, decayTime / maxDecayTime);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
