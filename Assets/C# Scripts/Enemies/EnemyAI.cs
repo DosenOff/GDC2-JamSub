@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class EnemyAI : MonoBehaviour, IDamageable
 {
-    public int score = 1000;
-
     [Header("Health")]
     public int health = 100;
     public HealthBar healthBar;
@@ -40,10 +38,15 @@ public class EnemyAI : MonoBehaviour, IDamageable
     bool hasGun = false;
     [HideInInspector] public bool detected = false;
 
+    [Header("Other")]
+    public int score = 1000;
+
     private GuardSpawner guardSpawner;
 
     public AudioClip deathSound;
     private AudioSource audioSource;
+
+    private Animator anim;
 
     void OnDrawGizmos()
     {
@@ -52,6 +55,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
 
     void Start()
     {
+        anim = GameObject.Find("Main Camera").GetComponent<Animator>();
         audioSource = GameObject.Find("SFXAudioSource").GetComponent<AudioSource>();
 
         guardSpawner = GameObject.Find("GuardSpawner").GetComponent<GuardSpawner>();
@@ -176,7 +180,8 @@ public class EnemyAI : MonoBehaviour, IDamageable
             player.AddScore(score);
             guardSpawner.guardCount--;
             guardSpawner.Spawn();
-            audioSource.PlayOneShot(deathSound);
+            anim.SetTrigger("shake");
+            audioSource.PlayOneShot(deathSound, 0.5f);
             Destroy(gameObject);
         }
     }

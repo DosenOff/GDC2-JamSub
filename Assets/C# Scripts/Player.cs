@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class Player : MonoBehaviour
@@ -331,5 +332,8 @@ public class Player : MonoBehaviour
     {
         score += addScore;
         scoreText.text = score.ToString();
+
+        if (score >= 15000)
+            SceneManager.LoadScene("Win");
     }
 }
